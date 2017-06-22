@@ -33,7 +33,6 @@ Enemy.prototype.update = function(dt) {
         }
     } else {
         // Player Instance
-        //console.log(this.x, this.y, dt)
     }
     //this.y = this.y + dt;
     //console.log(this.x, this.y)
@@ -43,6 +42,11 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+Enemy.prototype.checkCollisions = function(playerXPos) {
+    // convert the decimal value to whole number and check the logic
+    console.log(this.x == playerXPos)
+}
 
 Enemy.prototype.reset = function() {
     this.x = -COL_CONST;
@@ -80,12 +84,12 @@ Player.prototype.handleInput = function(keyCode) {
 }
 // Now instantiate your objects.
 var Enemy1 = new Enemy('images/enemy-bug.png', -12, 1, 200);
-var Enemy2 = new Enemy('images/enemy-bug.png', -7, 3, 200);
-var Enemy3 = new Enemy('images/enemy-bug.png', -10, 2, 200);
+// var Enemy2 = new Enemy('images/enemy-bug.png', -7, 3, 200);
+// var Enemy3 = new Enemy('images/enemy-bug.png', -10, 2, 200);
 var Player1 = new Player('images/char-boy.png', 0, 5, 100);
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var allEnemies = [Enemy1, Enemy2, Enemy3];
+var allEnemies = [Enemy1];
 var player = Player1;
 
 // This listens for key presses and sends the keys to your
