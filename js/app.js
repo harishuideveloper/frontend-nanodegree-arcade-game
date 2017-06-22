@@ -17,7 +17,6 @@ var Enemy = function(sprite, x, y, speed) {
     this.x = x * COL_CONST;
     this.y = y * ROW_CONST;
     this.speed = speed;
-    console.log(this.x, this.y, this.sprite)
 };
 
 // Update the enemy's position, required method for game
@@ -29,6 +28,9 @@ Enemy.prototype.update = function(dt) {
     if(this.speed) {
         // Enemy Instance
         this.x = this.x + dt * this.speed
+        if(this.x > (MAX_PLAYER_X_POS + COL_CONST)) {
+            this.reset()
+        }
     } else {
         // Player Instance
         //console.log(this.x, this.y, dt)
@@ -41,6 +43,10 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+Enemy.prototype.reset = function() {
+    this.x = -COL_CONST;
+}
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -63,6 +69,10 @@ Player.prototype.handleInput = function(keyCode) {
         var newYValue = currentYValue + parseInt(keyCode.y) * ROW_CONST;
         var isYValueWithinRange = newYValue >= 0 && newYValue <= MAX_PLAYER_Y_POS
         this.y = isYValueWithinRange ? newYValue : currentYValue;
+        if(currentYValue === 0) {
+            // reset player position
+            this.y = MAX_PLAYER_Y_POS;
+        }
     }else {
         // call player Reset method
         //return
@@ -71,12 +81,11 @@ Player.prototype.handleInput = function(keyCode) {
 // Now instantiate your objects.
 var Enemy1 = new Enemy('images/enemy-bug.png', -12, 1, 200);
 var Enemy2 = new Enemy('images/enemy-bug.png', -7, 3, 200);
-var Enemy3 = new Enemy('images/enemy-bug.png', -5, 1, 200);
-var Enemy4 = new Enemy('images/enemy-bug.png', -10, 2, 200);
+var Enemy3 = new Enemy('images/enemy-bug.png', -10, 2, 200);
 var Player1 = new Player('images/char-boy.png', 0, 5, 100);
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var allEnemies = [Enemy1, Enemy2, Enemy3, Enemy4];
+var allEnemies = [Enemy1, Enemy2, Enemy3];
 var player = Player1;
 
 // This listens for key presses and sends the keys to your
